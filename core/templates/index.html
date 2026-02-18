@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Вход в корпоративный портал</title>
+    <style>
+        :root { font-family: Arial, sans-serif; }
+        body {
+            background: #f3f5f7;
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+        }
+        .card {
+            width: min(760px, 92vw);
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+        h1 { margin-top: 0; }
+        .grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+        form {
+            display: grid;
+            gap: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+        }
+        button {
+            padding: 10px;
+            border: 0;
+            border-radius: 8px;
+            background: #1d4ed8;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .messages { margin-bottom: 12px; }
+        .message {
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            background: #eff6ff;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>Вход в корпоративный портал</h1>
+    <p>После входа будут доступны: личный кабинет, доска команды и раздел задач.</p>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="grid">
+        <form method="post" action="{% url 'login' %}">
+            <h3>Вход</h3>
+            {% csrf_token %}
+            {{ login_form.username }}
+            {{ login_form.password }}
+            <button type="submit">Войти</button>
+        </form>
+
+        <form method="post" action="{% url 'signup' %}">
+            <h3>Регистрация</h3>
+            {% csrf_token %}
+            {{ signup_form.username }}
+            {{ signup_form.email }}
+            {{ signup_form.password1 }}
+            {{ signup_form.password2 }}
+            <button type="submit">Создать аккаунт</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

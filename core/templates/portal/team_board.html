@@ -1,0 +1,28 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Портал · Доска команды{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Доска команды</h1>
+    <p class="muted">Публикуйте короткие объявления для коллег.</p>
+    <form method="post">
+        {% csrf_token %}
+        <label>{{ form.text.label }}{{ form.text }}</label>
+        <button type="submit">Опубликовать</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Последние объявления</h2>
+    {% if announcements %}
+        <ul>
+            {% for note in announcements %}
+                <li>{{ note }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="muted">Пока объявлений нет.</p>
+    {% endif %}
+</div>
+{% endblock %}

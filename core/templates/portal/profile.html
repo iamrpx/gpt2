@@ -1,0 +1,20 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Портал · Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Личный кабинет</h1>
+    <p class="muted">Измените данные профиля и информацию о себе.</p>
+    <form method="post">
+        {% csrf_token %}
+
+        <label>{{ form.first_name.label }}{{ form.first_name }}</label>
+        <label>{{ form.last_name.label }}{{ form.last_name }}</label>
+        <label>{{ form.email.label }}{{ form.email }}</label>
+        <label>{{ form.bio.label }}{{ form.bio }}</label>
+
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Корпоративный портал{% endblock %}</title>
+    <style>
+        :root { font-family: Arial, sans-serif; color: #111827; }
+        body { margin: 0; background: #f3f5f7; }
+        .layout { max-width: 980px; margin: 0 auto; padding: 24px; }
+        .topbar {
+            background: #111827;
+            color: #fff;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .nav { display: flex; gap: 8px; flex-wrap: wrap; }
+        .nav a {
+            color: #dbeafe;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: #1f2937;
+        }
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        }
+        input, textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-top: 6px;
+        }
+        button {
+            border: 0;
+            border-radius: 8px;
+            padding: 9px 12px;
+            cursor: pointer;
+            background: #2563eb;
+            color: #fff;
+            font-weight: 600;
+        }
+        .muted { color: #6b7280; }
+        .messages { margin: 12px 0; }
+        .message {
+            margin-bottom: 8px;
+            padding: 10px;
+            background: #eff6ff;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<header class="topbar">
+    <div><b>Корпоративный портал</b> · {{ request.user.username }}</div>
+    <nav class="nav">
+        <a href="{% url 'portal_home' %}">Главная</a>
+        <a href="{% url 'profile' %}">Личный кабинет</a>
+        <a href="{% url 'tasks' %}">Мои задачи</a>
+        <a href="{% url 'team_board' %}">Доска команды</a>
+    </nav>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Выйти</button>
+    </form>
+</header>
+
+<main class="layout">
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

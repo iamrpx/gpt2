@@ -1,0 +1,19 @@
+{% extends 'portal/base.html' %}
+
+{% block title %}Портал · Главная{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Добро пожаловать, {{ request.user.username }}!</h1>
+    <p class="muted">Это стартовая страница корпоративного портала с простыми внутренними инструментами.</p>
+</div>
+
+<div class="card">
+    <h2>Новости компании</h2>
+    <ul>
+        {% for item in news %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
