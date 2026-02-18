@@ -3,37 +3,37 @@
 {% block title %}Портал · Мои задачи{% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card reveal">
     <h1>Мои задачи</h1>
-    <form method="post">
+    <form class="stack" method="post">
         {% csrf_token %}
         <label>{{ form.title.label }}{{ form.title }}</label>
         <button type="submit">Добавить задачу</button>
     </form>
 </div>
 
-<div class="card">
+<div class="card reveal">
     <h2>Список задач</h2>
     {% if tasks %}
-        <ul>
+        <ul style="padding-left:0; list-style:none;">
             {% for task in tasks %}
-                <li style="margin-bottom:10px;">
-                    {% if task.done %}<s>{{ task.title }}</s>{% else %}{{ task.title }}{% endif %}
-                    <div style="display:inline-flex; gap:6px; margin-left:8px;">
+                <li class="task-item">
+                    <span>{% if task.done %}<s>{{ task.title }}</s>{% else %}{{ task.title }}{% endif %}</span>
+                    <div class="task-actions">
                         <form method="post" action="{% url 'task_toggle' forloop.counter0 %}">
                             {% csrf_token %}
                             <button type="submit">{% if task.done %}Вернуть{% else %}Готово{% endif %}</button>
                         </form>
                         <form method="post" action="{% url 'task_delete' forloop.counter0 %}">
                             {% csrf_token %}
-                            <button type="submit" style="background:#dc2626;">Удалить</button>
+                            <button class="btn-danger" type="submit">Удалить</button>
                         </form>
                     </div>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p class="muted">Задач пока нет.</p>
+        <p class="muted">Задач пока нет — добавьте первую выше.</p>
     {% endif %}
 </div>
 {% endblock %}

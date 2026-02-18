@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Корпоративный портал{% endblock %}</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f4f7fb;
+            --bg-soft: #eef3ff;
+            --surface: #ffffff;
+            --surface-2: #f9fbff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --primary: #2563eb;
+            --primary-strong: #1d4ed8;
+            --danger: #dc2626;
+            --border: #dbe4f2;
+            --shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+            --radius: 16px;
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 100% 0, #dbeafe 0, transparent 28%),
+                radial-gradient(circle at 0 100%, #ede9fe 0, transparent 24%),
+                var(--bg);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(8px);
+            background: rgba(15, 23, 42, 0.88);
+            color: #fff;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            box-shadow: 0 8px 24px rgba(2, 6, 23, 0.22);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            background: rgba(219, 234, 254, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .layout { max-width: 1060px; margin: 0 auto; padding: 24px; }
+
+        .nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: #dbeafe;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(148, 163, 184, 0.32);
+            transition: all .2s ease;
+        }
+
+        .nav a:hover { transform: translateY(-1px); background: rgba(37, 99, 235, 0.36); }
+
+        .card {
+            background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .card:hover { transform: translateY(-2px); box-shadow: 0 18px 30px rgba(15, 23, 42, 0.12); }
+        .card h1, .card h2, .card h3 { margin-top: 0; }
+
+        .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+        .stack { display: grid; gap: 12px; }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            margin-top: 6px;
+            background: #fff;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+        }
+
+        button, .btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 10px 14px;
+            cursor: pointer;
+            background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform .18s ease, box-shadow .18s ease;
+            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        button:hover, .btn:hover { transform: translateY(-1px) scale(1.01); }
+        .btn-danger { background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%); box-shadow: 0 8px 16px rgba(220, 38, 38, 0.25); }
+        .muted { color: var(--muted); }
+
+        .messages { margin-bottom: 14px; display: grid; gap: 8px; }
+        .message {
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #eaf2ff;
+            border: 1px solid #bfd7ff;
+            animation: fadeIn .35s ease;
+        }
+
+        .chip-list { display: flex; gap: 8px; flex-wrap: wrap; padding-left: 0; list-style: none; }
+        .chip { background: #e2e8f0; color: #1e293b; padding: 6px 10px; border-radius: 999px; font-size: 13px; }
+
+        .task-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; background: #fff; }
+        .task-actions { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal { opacity: 0; transform: translateY(12px) scale(.99); }
+        .reveal.in { animation: fadeIn .5s ease forwards; }
+
+        @media (max-width: 640px) {
+            .layout { padding: 14px; }
+            .topbar { padding: 12px 14px; }
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+{% block topbar %}{% endblock %}
+
+<main class="layout">
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message reveal">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<script>
+    document.querySelectorAll('.reveal, .card').forEach((el, index) => {
+        setTimeout(() => el.classList.add('in'), index * 60);
+    });
+
+    document.querySelectorAll('[data-copy-text]').forEach((button) => {
+        button.addEventListener('click', async () => {
+            const text = button.getAttribute('data-copy-text');
+            if (!text) return;
+            try {
+                await navigator.clipboard.writeText(text);
+                const initial = button.textContent;
+                button.textContent = 'Скопировано';
+                setTimeout(() => { button.textContent = initial; }, 900);
+            } catch (_) {}
+        });
+    });
+</script>
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -3,10 +3,10 @@
 {% block title %}Портал · Личный кабинет{% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card reveal">
     <h1>Личный кабинет</h1>
-    <p class="muted">Измените данные профиля и информацию о себе.</p>
-    <form method="post">
+    <p class="muted">Обновите данные профиля и информацию о себе. Изменения сохраняются сразу после отправки формы.</p>
+    <form class="stack" method="post">
         {% csrf_token %}
 
         <label>{{ form.first_name.label }}{{ form.first_name }}</label>

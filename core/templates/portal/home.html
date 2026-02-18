@@ -3,14 +3,19 @@
 {% block title %}Портал · Главная{% endblock %}
 
 {% block content %}
-<div class="card">
+<div class="card reveal">
     <h1>Добро пожаловать, {{ request.user.username }}!</h1>
-    <p class="muted">Это стартовая страница корпоративного портала с простыми внутренними инструментами.</p>
+    <p class="muted">Это стартовая страница корпоративного портала. Все разделы оформлены в едином стиле и с базовой анимацией интерфейса.</p>
+    <ul class="chip-list">
+        <li class="chip">Личный кабинет</li>
+        <li class="chip">Мои задачи</li>
+        <li class="chip">Доска команды</li>
+    </ul>
 </div>
 
-<div class="card">
+<div class="card reveal">
     <h2>Новости компании</h2>
-    <ul>
+    <ul class="stack">
         {% for item in news %}
             <li>{{ item }}</li>
         {% endfor %}
